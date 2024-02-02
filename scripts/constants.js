@@ -1,7 +1,7 @@
-const gridRows = 50;
-const gridColumns = 50;
-const cellWidth = 15 // px
-const cellHeight = 15 // px
+const gridRows = 20;
+const gridColumns = 20;
+const cellWidth = 25 // px
+const cellHeight = 25 // px
 
 let analyzer,
     bufferLength,

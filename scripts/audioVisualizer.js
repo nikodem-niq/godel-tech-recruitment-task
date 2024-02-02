@@ -19,26 +19,27 @@ const audioAnalyzer = () => {
   };
 
 
-// Updating colors
-const updateGridColorsBasedOnSoundWaveData= () => {
-    const cells = Array.from(document.querySelectorAll('.gridWrapper div')).reverse();
+  const updateGridColorsBasedOnSoundWaveData = () => {
     const columns = gridColumns;
     const columnHeight = gridRows;
 
     if(audioPlayer.paused) {
-        cells.forEach(cell => cell.style.backgroundColor = 'white');
+        for(let i=0; i<columns; i++) {
+            const cells = Array.from(document.querySelector(`#column_${i+1}`).children);
+            cells.forEach(cell => cell.style.backgroundColor = 'white');
+        }
     } else {
         analyzer.getByteFrequencyData(dataArray);
+
         const sortedDataArray = Array.from(dataArray).sort((a, b) => b - a);
 
         for (let j=0; j < columns; j++) {
             const value = sortedDataArray[j % bufferLength] / 255;
-            const cellsToColor = Math.floor(value * (columnHeight)); 
+            const cellsToColor = Math.floor(value * columnHeight);
+            const cells = Array.from(document.querySelector(`#column_${j+1}`).children);
 
             for (let i=0; i < columnHeight; i++) {
-                // index of cell
-                const index = (j * columnHeight + ( columnHeight - 1 - i));
-                const cell = cells[index];
+                const cell = cells[columnHeight - 1 - i];
 
                 if (i < cellsToColor) {
                     const hue = value * 120;
@@ -52,6 +53,7 @@ const updateGridColorsBasedOnSoundWaveData= () => {
 
     requestAnimationFrame(updateGridColorsBasedOnSoundWaveData);
 };
+
 
 
 
